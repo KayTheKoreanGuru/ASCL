@@ -1,0 +1,11 @@
+# ASCL
+
+Many feature detection algorithms are well developed and can be implemented to fuse different sensors. However, it is very important to be able to calibrate the sensors because of the accuracy of data acquisition.
+An example of sensor fusion between two RGB cameras with different resolutions is shown below. The pictures are taken with a Pixelink PL-D725MU-T and an iPhone in JEC2112.
+![image](https://user-images.githubusercontent.com/128822435/227659955-170cfaf0-0373-4cae-ace5-f2625d86a001.png)
+As it can be seen from the above example, corners of checkerboard are detected and used as reference points for overlay. The image in the middle shows how ineffective an overlay without extrinsic calibration. There is a high disparity since the images are not processed. The image on the right shows the result of a successful overlay, where the corners are labelled and corresponding points are matched by minimizing RMSE.
+However, such method is not very effective when it comes to the sensor fusion between a LiDAR and a RGB camera. LiDAR is only able to provide depth information (X,Y,Z ). Therefore, existing algorithms that utilize the intensity of pixels for feature detection become useless. The image below shows my first approach to the problem by detecting edges and optimizing the overlay.
+![image](https://user-images.githubusercontent.com/128822435/227659994-1c61b414-5c9a-47eb-b592-5652a0858543.png)
+The image on the top left is LiDAR projected onto 2D where depth information is shown in grayscale. I implemented genetic algorithm for the optimization, but it was computationally expensive and inaccurate because reference points were not provided. 
+In order to tackle this problem and enable the detection of relevant and useful features, I am planning to detect circles and use their centers as references for overlay. I was able to find a simple Circle detection dataset that was synthetically created on Kaggle. Since the dataset is not complex and intentionally created, detecting circles from real-life images will be challenging. Therefore, the images I input for circle detection will be taken in a controlled set-up as shown below. 
+![image](https://user-images.githubusercontent.com/128822435/227660033-8e0d5b65-9973-485a-be05-fc511e4710c9.png)
